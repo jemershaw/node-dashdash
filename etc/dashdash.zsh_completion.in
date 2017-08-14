@@ -1,0 +1,82 @@
+#compdef {{name}}
+#
+# Bash completion generated for '{{name}}' at {{date}}.
+#
+# The original template lives here:
+# https://github.com/trentm/node-dashdash/blob/master/etc/dashdash.zsh_completion.in
+#
+
+function _{{name}}_completer {
+
+    # ---- cmd definition
+
+    {{spec}}
+
+
+    # ---- locals
+
+    declare -a argv
+
+
+    # ---- support functions
+
+    # Create context
+    local context
+    for i in ${words[@]:1:-1};do
+      if [[ "$i" =~ ^- ]]; then
+        break
+      fi
+      context=$context"__"$i;
+    done
+
+    local shortopts longopts optargs subcmds allsubcmds argtypes
+    shortopts=(${(ps: :)"$(eval "echo \${cmd${context}_shortopts}")"})
+    shortoptsdescription=(${(ps:|:)"$(eval "echo \${cmd${context}_shortoptsdescription}")"})
+    longopts=(${(ps: :)"$(eval "echo \${cmd${context}_longopts}")"})
+    longoptsdescription=(${(ps:|:)"$(eval "echo \${cmd${context}_longoptsdescription}")"})
+    allsubcmds=(${(ps: :)"$(eval "echo \${cmd${context}_allsubcmds}")"})
+    allsubcmdsdescription=(${(ps:|:)"$(eval "echo \${cmd${context}_allsubcmdsdescription}")"})
+
+    local -a commands
+    commands=();
+    arguments=();
+
+    # Creating short options
+    for ((i=1;i<${#shortopts[@]}+1;i++)) {
+     arguments+=("${shortopts[${i}]}:${shortoptsdescription[${i}]}")
+    }
+
+    # Creating long options
+    for ((i=1;i<${#longopts[@]}+1;i++)) {
+      arguments+=("${longopts[${i}]}:${longoptsdescription[${i}]}")
+    }
+
+    # Creating sub commands
+    for ((i=1;i<${#allsubcmds[@]}+1;i++)) {
+      commands+=("${allsubcmds[${i}]}:${allsubcmdsdescription[${i}]}")
+    }
+
+    _describe 'commands' commands -- arguments
+
+    return 0
+
+}
+
+
+# ---- mainline
+
+compdef _{{name}}_completer {{name}}
+
+
+##
+## This is a ZSH completion file for the '{{name}}' command. You can install
+## with either:
+##
+##     cp FILE /usr/local/etc/bash_completion.d/{{name}}   # Mac
+##     cp FILE /etc/bash_completion.d/{{name}}             # Linux
+##
+## or:
+##
+##     cp FILE > ~/.{{name}}.completion
+##     echo "source ~/.{{name}}.completion" >> ~/.bashrc
+##
